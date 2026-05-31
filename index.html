@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tab Title and Exercise Logo Icon -->
+    <title>A.R Female Fitness Centre</title>
+    <link rel="icon" href="https://img.icons8.com/ios-filled/50/ff3366/dumbbell.png" type="image/png">
+    
+    <style>
+        :root {
+            --bg-dark: #0f1115;
+            --bg-card: #181b22;
+            --accent-pink: #ff3366;
+            --accent-hover: #ff5588;
+            --text-light: #ffffff;
+            --text-gray: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            padding-top: 70px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: rgba(15, 17, 21, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 51, 102, 0.1);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-area span { color: var(--accent-pink); }
+        .logo-area img { width: 32px; height: 32px; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover { color: var(--accent-pink); }
+
+        /* General Layout Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        /* Hero Intro Section */
+        .intro-section {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #1c1f26, #121418);
+            padding: 40px 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .intro-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .owners-tag {
+            font-size: 1rem;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+        }
+
+        .owners-tag strong { color: var(--text-light); }
+
+        .trainer-badge {
+            display: inline-block;
+            background-color: rgba(255, 51, 102, 0.1);
+            color: var(--accent-pink);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 51, 102, 0.2);
+        }
+
+        /* Section Title Layout */
+        .section-title {
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-pink);
+            margin: 8px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        /* Grid Framework */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+
+        .plan-card {
+            background-color: var(--bg-card);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 35px 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-pink);
+            box-shadow: 0 10px 25px rgba(255, 51, 102, 0.15);
+        }
+
+        .plan-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .plan-details {
+            display: none;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .price-row span { color: var(--accent-pink); }
+
+        /* Reusable Form Action Buttons */
+        .btn {
+            display: inline-block;
+            width: 100%;
+            background-color: var(--accent-pink);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s, transform 0.1s;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(255, 51, 102, 0.2);
+        }
+
+        .btn:hover { background-color: var(--accent-hover); }
+        .btn:active { transform: scale(0.98); }
+
+        /* Base Info Panels */
+        .info-panel {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Form Configuration */
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #d1d5db;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--bg-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-pink);
+        }
+
+        /* Responsive Popups */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        .modal-box {
+            background: var(--bg-card);
+            padding: 30px 20px;
+            border-radius: 16px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 25px rgba(255, 51, 102, 0.3);
+            animation: modalSetup 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Access Panels */
+        .admin-auth, .admin-dashboard {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+            min-width: 500px;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        th { background-color: rgba(0,0,0,0.4); color: var(--accent-pink); font-weight: 700; }
+
+        /* Media Screen Optimizations for Smartphones */
+        @media (max-width: 768px) {
+            body { padding-top: 65px; }
+            nav { padding: 12px 4%; }
+            .nav-links { gap: 12px; }
+            .nav-links a { font-size: 0.8rem; }
+            .intro-section h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.4rem; }
+            .info-panel { padding: 25px 15px; }
+            .btn { padding: 14px; font-size: 0.95rem; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes modalSetup {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-area">
+            <img src="https://img.icons8.com/ios-filled/40/ff3366/dumbbell.png" alt="Dumbbell">
+            A.R <span>FITNESS</span>
+        </div>
+        <ul class="nav-links">
+            <li><a onclick="scrollToSec('plans')">Programs</a></li>
+            <li><a onclick="scrollToSec('rules')">Rules</a></li>
+            <li><a onclick="scrollToSec('register')">Join</a></li>
+            <li><a onclick="scrollToSec('admin')">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Header Info Card -->
+        <section class="intro-section">
+            <h1>A.R Female Fitness Club</h1>
+            <p class="owners-tag">Owner & Manager: <strong>Mrs. Archana Bharti</strong></p>
+            <span class="trainer-badge">Head Trainer: Mrs. Archana Bharti</span>
+        </section>
+
+        <!-- Program Plans Section -->
+        <section id="plans">
+            <h2 class="section-title">Our Club Programs</h2>
+            <div class="plans-grid">
+                
+                <!-- Gym Plan -->
+                <div class="plan-card" onclick="togglePlan('gym')">
+                    <h3>Gym Membership</h3>
+                    <p style="color: var(--text-gray); margin-top: 8px; font-size: 0.9rem;">Tap to view modern pricing tracks.</p>
+                    <div id="gym-details" class="plan-details">
+                        <div class="price-row">
+                            <span>Offline Access</span>
+                            <span>₹1500 / Month</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Online Coaching</span>
+                            <span>₹1000 / Month</span>
+                        </div>
+                        <button class="btn" onclick="openRegistrationFromPlan(event)">Select & Register</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Rules Panel -->
+        <section id="rules" class="info-panel">
+            <h2 class="section-title" style="margin-bottom: 20px;">Club Guidelines & Rules</h2>
+            <p style="text-align: center; color: var(--text-gray); font-style: italic; font-size: 0.95rem;">
+                Do not abuse staff or any member. <br>
+                Payment must be made in advance.
+            </p>
+        </section>
+
+        <!-- Lead Capture Form Panel -->
+        <section id="register" class="info-panel">
+            <h2 class="section-title">Online Joining Portal</h2>
+            <form id="regForm" onsubmit="submitRegistration(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="clientName" required placeholder="Enter member name">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="clientPhone" required placeholder="Enter active phone number">
+                </div>
+                <div class="form-group">
+                    <label>Selected Stream</label>
+                    <select id="clientStream">
+                        <option value="Gym - Offline">Gym (Offline Setup - ₹1500)</option>
+                        <option value="Gym - Online">Gym (Online Setup - ₹1000)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn" style="margin-top: 15px;">Complete Registration</button>
+            </form>
+        </section>
+
+        <!-- Secured Single-Page Admin View -->
+        <section id="admin" class="info-panel">
+            <h2 class="section-title" style="color: var(--accent-pink);">Secure Owner Terminal</h2>
+            
+            <!-- Auth Form Entry -->
+            <div id="adminAuth" class="admin-auth" style="display: block; text-align: center; max-width: 400px; margin: 0 auto;">
+                <p style="margin-bottom: 15px; color: var(--text-gray); font-size: 0.9rem;">Access limited strictly to Admins.</p>
+                <input type="password" id="adminPass" placeholder="Enter Access Password" style="margin-bottom: 15px;">
+                <button class="btn" onclick="verifyAdminAccess()">Authorize Dashboard</button>
+            </div>
+
+            <!-- Main Data Table Dashboard -->
+            <div id="adminDashboard" class="admin-dashboard">
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                    <h3 style="font-size: 1.1rem;">Verified Registrations</h3>
+                    <button class="btn" style="width: auto; padding: 8px 16px; margin: 0; font-size: 0.85rem;" onclick="loadRegistrations()">Refresh</button>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact Line</th>
+                                <th>Selected Stream</th>
+                                <th>Payment Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationTableBody">
+                            <!-- Injected dynamically via logs array -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Smart Redirect Call Success Modal -->
+    <div id="successModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 style="color: #10b981; margin-bottom: 12px; font-size: 1.5rem;">✔ Submission Done!</h2>
+            <p id="modalMessage" style="color: var(--text-gray); margin-bottom: 25px; font-size: 0.95rem;"></p>
+            <div id="modalRedirectArea"></div>
+        </div>
+    </div>
+
+    <script>
+        let localRegistrationBackupArray = [];
+
+        function scrollToSec(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function togglePlan(type) {
+            const block = document.getElementById(`${type}-details`);
+            block.style.display = (block.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function openRegistrationFromPlan(event) {
+            event.stopPropagation();
+            document.getElementById('clientStream').value = "Gym - Offline";
+            scrollToSec('register');
+        }
+
+        async function submitRegistration(e) {
+            e.preventDefault();
+            const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            const stream = document.getElementById('clientStream').value;
+
+            const payload = {
+                name,
+                phone,
+                stream,
+                paymentStatus: "Pending (Pay at Desk)"
+            };
+
+            let isSaved = false;
+
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (res.ok) isSaved = true;
+            } catch (err) {
+                localRegistrationBackupArray.push(payload);
+                isSaved = true;
+            }
+
+            if (isSaved) {
+                showSuccessPopup(name, stream);
+                document.getElementById('regForm').reset();
+            }
+        }
+
+        function showSuccessPopup(name, stream) {
+            const modal = document.getElementById('successModal');
+            const msg = document.getElementById('modalMessage');
+            const actionArea = document.getElementById('modalRedirectArea');
+            
+            modal.style.display = "flex";
+            
+            // Put your actual gym contact number below instead of 9999999999
+            const gymPhoneNumber = "9917514420"; 
+            
+            if (stream.includes("Online")) {
+                msg.innerText = `Hi ${name}! Your form is received. To complete payment and instantly get your online batch invite link, click the call button below to confirm with Mrs. Archana Bharti directly.`;
+                actionArea.innerHTML = `
+                    <a href="tel:${gymPhoneNumber}" class="btn" style="background:#10b981; display:block; margin-bottom:10px;">📞 CLICK TO CALL OWNER NOW</a>
+                    <button class="btn" style="background:transparent; border:1px solid var(--text-gray); color:var(--text-gray); margin:0;" onclick="closeModal()">Call Later</button>
+                `;
+            } else {
+                msg.innerText = `Welcome to A.R Club, ${name}! Your layout profile is logged. Please visit the main reception area desk to confirm details.`;
+                actionArea.innerHTML = `<button class="btn" onclick="closeModal()">Close Window</button>`;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').style.display = "none";
+        }
+
+        async function verifyAdminAccess() {
+            const inputPass = document.getElementById('adminPass').value;
+            
+            try {
+                const res = await fetch('/api/admin/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pass: inputPass })
+                });
+
+                if (res.ok) {
+                    document.getElementById('adminAuth').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    loadRegistrations();
+                } else {
+                    alert("Unauthorized entry access key credential sequence mismatch error.");
+                }
+            } catch (err) {
+                // Static operational keys if using single index file previews
+                if (inputPass === "admin123" || inputPass === "archana@123") {
+                    document.getElementById('adminAuth').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    loadRegistrations();
+                } else {
+                    alert("Incorrect terminal authorization password key.");
+                }
+            }
+        }
+
+        async function loadRegistrations() {
+            try {
+                const res = await fetch('/api/admin/registrations');
+                if (res.ok) {
+                    const records = await res.json();
+                    renderTableRows(records);
+                } else {
+                    throw new Error("Pipe failure");
+                }
+            } catch(e) {
+                renderTableRows(localRegistrationBackupArray);
+            }
+        }
+
+        function renderTableRows(records) {
+            const tbody = document.getElementById('registrationTableBody');
+            tbody.innerHTML = '';
+            
+            if(!records || records.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color: var(--text-gray)">No client registration feeds recorded inside active system state.</td></tr>`;
+                return;
+            }
+
+            records.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.phone}</td>
+                    <td>${item.stream}</td>
+                    <td><span style="color: #f59e0b; background: rgba(245,158,11,0.1); padding: 4px 8px; border-radius:4px; font-size:0.85rem; font-weight:600;">${item.paymentStatus}</span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
